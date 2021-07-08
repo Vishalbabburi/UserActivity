@@ -45,11 +45,8 @@ public class ActivityController {
 	
 	@PostMapping("/AddStatus/{id}")
 	public UserActivity addstatus(@RequestBody UserActivity todayactivity, @PathVariable("id") int theid) {
-		
-		
-			//get the UserInfo with particular id
-		
-		
+
+		//get the UserInfo with particular id
 		UserInfo theuser=UserinfoDao.findByUid(theid);
 		//add activity to that user
 		logger.info("about to add todayactivity to activities list in User info");
@@ -57,7 +54,7 @@ public class ActivityController {
 		logger.info("succesfully added to activities list");
 		logger.info("about to save the activity to table");
 		
-			return	ActivityDao.save(todayactivity) ;	
+		return	ActivityDao.save(todayactivity) ;	
 	}
 	@PutMapping("/editStatus")
 	public UserActivity editStatus(@RequestBody UserActivity editedActivity) {
