@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.miracle.UserActivity.Dao.UserActivityDao;
-import com.miracle.UserActivity.Dao.UserInfoDao;
+import com.miracle.UserActivity.dao.UserActivityDao;
+import com.miracle.UserActivity.dao.UserInfoDao;
 import com.miracle.UserActivity.entities.UserActivity;
 import com.miracle.UserActivity.entities.UserInfo;
 

@@ -1,4 +1,4 @@
-package com.miracle.UserActivity.Dao;
+package com.miracle.UserActivity.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
