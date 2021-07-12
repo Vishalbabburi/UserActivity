@@ -24,66 +24,67 @@ public class ActivityController {
 	private Logger logger=LoggerFactory.getLogger(ActivityController.class);
 	
 	@Autowired
-	UserActivityDao ActivityDao;
+	UserActivityDao activityDao;
 	
 	@Autowired
-	UserInfoDao  UserinfoDao;
-	@GetMapping("/")
-	public String home() {
-		return "<h1> Welcome to user activity page</h1>";
-	}
+	UserInfoDao userInfoDao;
+
+//	@GetMapping("/")
+//	public String home() {
+//		return "<h1> Welcome to user activity page</h1>";
+//	}
 
 	@GetMapping("/findStatusByName/{name}")
-	public List<UserActivity> findByName(@PathVariable("name") String thename){
-		return ActivityDao.findByName(thename);
+	public List<UserActivity> findByName(@PathVariable("name") String name){
+		return activityDao.findByName(name);
 	}
 	
 	@GetMapping("/findStatusByDate/{date}")
-	public List<UserActivity> findbydate(@PathVariable("date") String thedate){
-		return ActivityDao.findByDate(thedate);
+	public List<UserActivity> findbydate(@PathVariable("date") String date){
+		return activityDao.findByDate(date);
 	}
 	
 	@PostMapping("/AddStatus/{id}")
-	public UserActivity addstatus(@RequestBody UserActivity todayactivity, @PathVariable("id") int theid) {
+	public UserActivity addstatus(@RequestBody UserActivity todayActivity, @PathVariable("id") int id) {
 
 		//get the UserInfo with particular id
-		UserInfo theuser=UserinfoDao.findByUid(theid);
+		UserInfo theuser= userInfoDao.findByUid(id);
 		//add activity to that user
-		logger.info("about to add todayactivity to activities list in User info");
-		theuser.add(todayactivity);
+		logger.info("about to add todayActivity to activities list in User info");
+		theuser.add(todayActivity);
 		logger.info("succesfully added to activities list");
 		logger.info("about to save the activity to table");
 		
-		return	ActivityDao.save(todayactivity) ;	
+		return	activityDao.save(todayActivity) ;
 	}
 	@PutMapping("/editStatus")
 	public UserActivity editStatus(@RequestBody UserActivity editedActivity) {
-		return ActivityDao.save(editedActivity);
+		return activityDao.save(editedActivity);
 	}
 	
 	@DeleteMapping("/DeleteByName/{name}")
-	public String deletebyname(@PathVariable("name") String thename) {
+	public String deletebyname(@PathVariable("name") String name) {
 	
-		ActivityDao.deleteByName(thename);
-		return "All "+thename+" entries deleted successfully";
+		activityDao.deleteByName(name);
+		return "All "+name+" entries deleted successfully";
 	}
 	
 	@DeleteMapping("/DeleteBydate/{date}")
-	public String deletebydate(@PathVariable("date") String thedate) {
+	public String deletebydate(@PathVariable("date") String date) {
 	
-		ActivityDao.deleteByDate(thedate);
-		return "All "+thedate+" entries deleted successfully";
+		activityDao.deleteByDate(date);
+		return "All "+date+" entries deleted successfully";
 	}
 	@DeleteMapping("/DeleteAll")
 	public String deleteallentries() {
-		ActivityDao.deleteAll();
+		activityDao.deleteAll();
 		return "All entries Deleted";
 	}
 	
-	//for userinfo
+	//for userInfo
 	@PostMapping("/AddUserInfo")
-	public UserInfo AddUser(@RequestBody UserInfo userinfo) {
-		return UserinfoDao.save(userinfo);
+	public UserInfo AddUser(@RequestBody UserInfo userInfo) {
+		return userInfoDao.save(userInfo);
 	}
 	
 	
