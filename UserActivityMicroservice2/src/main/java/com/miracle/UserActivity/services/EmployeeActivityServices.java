@@ -1,7 +1,7 @@
 package com.miracle.UserActivity.services;
 
-import com.miracle.UserActivity.dao.UserActivityDao;
-import com.miracle.UserActivity.dao.UserInfoDao;
+import com.miracle.UserActivity.dao.EmployeeActivityDao;
+import com.miracle.UserActivity.dao.EmployeeInfoDao;
 import com.miracle.UserActivity.entities.UserActivity;
 import com.miracle.UserActivity.entities.UserInfo;
 import org.slf4j.Logger;
@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserActivityServices {
+public class EmployeeActivityServices {
 
-    private Logger logger= LoggerFactory.getLogger(UserActivityServices.class);
-
-    @Autowired
-    UserActivityDao activityDao;
+    private Logger logger= LoggerFactory.getLogger(EmployeeActivityServices.class);
 
     @Autowired
-    UserInfoDao userInfoDao;
+    EmployeeActivityDao activityDao;
+
+    @Autowired
+    EmployeeInfoDao employeeInfoDao;
 
     public List<UserActivity> findByName(String name){
         return activityDao.findByName(name);
@@ -32,7 +32,7 @@ public class UserActivityServices {
 
     public UserActivity createStatus(UserActivity todayActivity, int id){
         //get the UserInfo with particular id
-        UserInfo user= userInfoDao.findByUid(id);
+        UserInfo user= employeeInfoDao.findByUid(id);
         //add activity to that user
         logger.info("about to add todayActivity to activities list in User info");
         user.add(todayActivity);
@@ -62,7 +62,7 @@ public class UserActivityServices {
     }
 
     public UserInfo createUser(UserInfo userInfo) {
-        return userInfoDao.save(userInfo);
+        return employeeInfoDao.save(userInfo);
     }
 
 
