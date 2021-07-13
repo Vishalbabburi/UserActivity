@@ -19,6 +19,8 @@ public interface UserActivityDao extends JpaRepository<UserActivity, Integer> {
 			
 			public List<UserActivity> findByDate(String date);
 			
+			public List<UserActivity> findByNameAndDate(String name,String date);
+			
 			@Transactional
 			@Modifying(clearAutomatically=true)
 			public void deleteByName(String name);

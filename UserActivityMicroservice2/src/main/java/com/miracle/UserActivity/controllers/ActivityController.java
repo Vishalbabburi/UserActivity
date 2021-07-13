@@ -39,7 +39,12 @@ public class ActivityController {
 	public List<UserActivity> findbydate(@PathVariable("date") String date){
 		return userActivityServices.findByDate(date);
 	}
-	
+	@GetMapping("/findStatusByNameAndDate/{name}/{date}")
+	public List<UserActivity> findStatusByNameAndDate(@PathVariable("name") String name,
+													@PathVariable("date") String date){
+			return userActivityServices.findStatusByNameAndDate(name,date);
+		
+	}
 	@PostMapping("/AddStatus/{id}")
 	public UserActivity addstatus(@RequestBody UserActivity todayActivity, @PathVariable("id") int id) {
 		return	userActivityServices.createStatus(todayActivity,id) ;

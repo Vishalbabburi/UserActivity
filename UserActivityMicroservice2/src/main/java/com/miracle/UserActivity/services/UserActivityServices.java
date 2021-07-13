@@ -65,5 +65,10 @@ public class UserActivityServices {
         return userInfoDao.save(userInfo);
     }
 
+	public List<UserActivity> findStatusByNameAndDate(String name, String date) {
+		
+		return activityDao.findByNameAndDate(name, date);
+	}
+
 
 }
