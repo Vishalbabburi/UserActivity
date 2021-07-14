@@ -5,13 +5,13 @@ import com.miracle.UserActivity.dao.EmployeeInfoDao;
 import com.miracle.UserActivity.entities.UserActivity;
 import com.miracle.UserActivity.entities.UserInfo;
 import com.miracle.UserActivity.exceptions.EmployeeNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeActivityServices {
@@ -32,23 +32,19 @@ public class EmployeeActivityServices {
         return EmployeeActivityDao.findByDate(date);
     }
 
-    public Object createStatus(UserActivity todayActivity, int id) throws EmployeeNotFoundException{
+    public UserActivity createStatus(UserActivity todayActivity, int id) throws EmployeeNotFoundException{
         //get the UserInfo with particular id
-        Optional checkUser= employeeInfoDao.findByUid(id);
-        //add activity to that user
-        UserInfo user;
-        if(checkUser.isPresent()){
-            user = (UserInfo) checkUser.get();
+    	UserInfo user= employeeInfoDao.findById(id).orElse(null);
+        if(user!=null){
             logger.info("about to add todayActivity to activities list in User info");
             user.add(todayActivity);
             logger.info("succesfully added to activities list");
             logger.info("about to save the activity to table");
             return	EmployeeActivityDao.save(todayActivity) ;
         } else{
-            return new EmployeeNotFoundException("Employee with id : "+id+"does not exist.");
+//            return new EmployeeNotFoundException("Employee with id : "+id+"does not exist.");
+        	throw new EmployeeNotFoundException("Employee with id : "+id+"does not exist.");
         }
-
-
     }
 
     public UserActivity editStatus(UserActivity editedActivity){

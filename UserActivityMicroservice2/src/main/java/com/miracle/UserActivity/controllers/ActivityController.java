@@ -46,8 +46,8 @@ public class ActivityController {
 		
 	}
 	@PostMapping("/AddStatus/{id}")
-	public ResponseEntity addstatus(@RequestBody UserActivity todayActivity, @PathVariable("id") int id) {
-		return	new ResponseEntity(employeeActivityServices.createStatus(todayActivity,id), HttpStatus.OK);
+	public ResponseEntity<UserActivity> addstatus(@RequestBody UserActivity todayActivity, @PathVariable("id") int id) {
+		return	new ResponseEntity<>(employeeActivityServices.createStatus(todayActivity,id), HttpStatus.OK);
 	}
 	@PutMapping("/editStatus")
 	public UserActivity editStatus(@RequestBody UserActivity editedActivity) {
