@@ -37,8 +37,5 @@ public class UserActivity {
 	@JoinColumn(name="uid")
 	@JsonIgnore
 		private UserInfo user_info_id;
-	
-	
-	
-	
+
 }

@@ -4,7 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.miracle.UserActivity.entities.UserInfo;
 
+import java.util.Optional;
+
 public interface EmployeeInfoDao extends JpaRepository<UserInfo, Integer> {
 		
-	public UserInfo findByUid(int id);
+	public Optional findByUid(int id);
 }
