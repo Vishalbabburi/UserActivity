@@ -75,5 +75,11 @@ public class EmployeeActivityServices {
 		return EmployeeActivityDao.findStatusByNameAndDate(name, date);
 	}
 
+	public List<UserActivity> findByUid(int id) {
+		// TODO Auto-generated method stub
+		 UserInfo userinfo=employeeInfoDao.findByUid(id);
+		 return userinfo.getUseractivities();
+	}
+
 
 }

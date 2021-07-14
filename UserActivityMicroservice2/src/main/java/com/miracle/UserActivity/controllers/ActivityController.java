@@ -34,7 +34,10 @@ public class ActivityController {
 	public List<UserActivity> findByName(@PathVariable("name") String name){
 		return employeeActivityServices.findByName(name);
 	}
-	
+	@GetMapping("/findStatusByid/{id}")
+	public List<UserActivity> findStatusByid(@PathVariable("id") int uid){
+		return employeeActivityServices.findByUid(uid);
+	}
 	@GetMapping("/findStatusByDate/{date}")
 	public List<UserActivity> findbydate(@PathVariable("date") String date){
 		return employeeActivityServices.findByDate(date);
