@@ -5,6 +5,9 @@ import com.miracle.UserActivity.dao.EmployeeInfoDao;
 import com.miracle.UserActivity.entities.UserActivity;
 import com.miracle.UserActivity.entities.UserInfo;
 import com.miracle.UserActivity.exceptions.EmployeeNotFoundException;
+import com.miracle.UserActivity.exceptions.UnauthorizedAccessException;
+import com.miracle.UserActivity.models.LoginRequest;
+import com.miracle.UserActivity.models.LoginResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,14 +74,25 @@ public class EmployeeActivityServices {
     }
 
 	public List<UserActivity> findStatusByNameAndDate(String name, String date) {
-		// TODO Auto-generated method stub
+	
 		return EmployeeActivityDao.findStatusByNameAndDate(name, date);
 	}
 
 	public List<UserActivity> findByUid(int id) {
-		// TODO Auto-generated method stub
+		
 		 UserInfo userinfo=employeeInfoDao.findByUid(id);
 		 return userinfo.getUseractivities();
+	}
+
+	public LoginResponse authenticate(LoginRequest loginRequest) {
+		String name=loginRequest.getName();
+		String password=loginRequest.getPassword();
+		
+		UserInfo user=employeeInfoDao.findByNameAndPassword(name,password);
+		if(user==null) throw new UnauthorizedAccessException("UNAUTHORIZED ACCESS");
+		LoginResponse loginResponse=new LoginResponse(user.getUid(),user.getName(),user.getRole());
+		return loginResponse;
+		
 	}
 
 

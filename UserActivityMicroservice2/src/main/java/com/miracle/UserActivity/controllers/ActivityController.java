@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miracle.UserActivity.entities.UserActivity;
 import com.miracle.UserActivity.entities.UserInfo;
+import com.miracle.UserActivity.models.LoginRequest;
+import com.miracle.UserActivity.models.LoginResponse;
 
 
 @RestController
@@ -29,7 +31,10 @@ public class ActivityController {
 //	public String home() {
 //		return "<h1> Welcome to user activity page</h1>";
 //	}
-
+	@PostMapping("/login")
+	public LoginResponse authenticate(@RequestBody LoginRequest loginRequest) {
+		return employeeActivityServices.authenticate(loginRequest);
+	}
 	@GetMapping("/findStatusByName/{name}")
 	public List<UserActivity> findByName(@PathVariable("name") String name){
 		return employeeActivityServices.findByName(name);
@@ -72,7 +77,7 @@ public class ActivityController {
 		return employeeActivityServices.deleteAll();
 	}
 
-	@PostMapping("/AddUserInfo")
+	@PostMapping("/RegisterUser")
 	public UserInfo addUser(@RequestBody UserInfo userInfo) {
 		return employeeActivityServices.createUser(userInfo);
 	}

@@ -18,7 +18,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<ExceptionResponse> employeeNotFound(EmployeeNotFoundException exception){
         ExceptionResponse response = new ExceptionResponse();
-        response.setErrorCode("NOT_FOUND");
+        response.setErrorCode(HttpStatus.NOT_FOUND.value());
         response.setErrorMessage(exception.getMessage());
         response.setTimestamp(LocalDateTime.now());
         log.error(exception.getMessage());
@@ -26,9 +26,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     
     @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> unauthorizedRequest(UnauthorizedAccessException exception){
+        ExceptionResponse response = new ExceptionResponse();
+        response.setErrorCode(HttpStatus.UNAUTHORIZED.value());
+        response.setErrorMessage(exception.getMessage());
+        response.setTimestamp(LocalDateTime.now());
+        log.error(exception.getMessage());
+        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler
     public ResponseEntity<ExceptionResponse> badRequest(Exception exception){
         ExceptionResponse response = new ExceptionResponse();
-        response.setErrorCode("BAD_REQUEST");
+        response.setErrorCode(HttpStatus.BAD_REQUEST.value());
         response.setErrorMessage(exception.getMessage());
         response.setTimestamp(LocalDateTime.now());
         log.error(exception.getMessage());
