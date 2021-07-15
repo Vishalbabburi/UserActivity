@@ -24,5 +24,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(exception.getMessage());
         return new ResponseEntity<ExceptionResponse>(response, HttpStatus.NOT_FOUND);
     }
-
+    
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> badRequest(Exception exception){
+        ExceptionResponse response = new ExceptionResponse();
+        response.setErrorCode("BAD_REQUEST");
+        response.setErrorMessage(exception.getMessage());
+        response.setTimestamp(LocalDateTime.now());
+        log.error(exception.getMessage());
+        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.BAD_REQUEST);
+    }
 }
