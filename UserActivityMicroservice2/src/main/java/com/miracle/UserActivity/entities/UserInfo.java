@@ -24,6 +24,7 @@ public class UserInfo {
 	private int uid;
 	private String name;
 	private String password;
+	private String role;
 	
 //	@OneToMany(targetEntity=UserActivity.class,fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 //	@JoinColumn(name="user_id",referencedColumnName="uid")
