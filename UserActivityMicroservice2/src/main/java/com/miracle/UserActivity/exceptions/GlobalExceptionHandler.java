@@ -16,7 +16,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     Logger log =LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity employeeNotFound(EmployeeNotFoundException exception){
+    public ResponseEntity<ExceptionResponse> employeeNotFound(EmployeeNotFoundException exception){
         ExceptionResponse response = new ExceptionResponse();
         response.setErrorCode("NOT_FOUND");
         response.setErrorMessage(exception.getMessage());
