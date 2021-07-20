@@ -31,6 +31,10 @@ public class EmployeeActivityServices {
         return EmployeeActivityDao.findByName(name);
     }
 
+    public List<UserInfo> findAllUser() {
+        return employeeInfoDao.findAll();
+    }
+
     public List<UserActivity> findByDate(String date){
         return EmployeeActivityDao.findByDate(date);
     }
@@ -41,11 +45,10 @@ public class EmployeeActivityServices {
         if(user!=null){
             logger.info("about to add todayActivity to activities list in User info");
             user.add(todayActivity);
-            logger.info("succesfully added to activities list");
+            logger.info("successfully added to activities list");
             logger.info("about to save the activity to table");
             return	EmployeeActivityDao.save(todayActivity) ;
         } else{
-//            return new EmployeeNotFoundException("Employee with id : "+id+"does not exist.");
         	throw new EmployeeNotFoundException("Employee with id : "+id+"does not exist.");
         }
     }
@@ -74,12 +77,10 @@ public class EmployeeActivityServices {
     }
 
 	public List<UserActivity> findStatusByNameAndDate(String name, String date) {
-	
 		return EmployeeActivityDao.findStatusByNameAndDate(name, date);
 	}
 
 	public List<UserActivity> findByUid(int id) {
-		
 		 UserInfo userinfo=employeeInfoDao.findByUid(id);
 		 return userinfo.getUseractivities();
 	}
@@ -92,8 +93,6 @@ public class EmployeeActivityServices {
 		if(user==null) throw new UnauthorizedAccessException("UNAUTHORIZED ACCESS");
 		LoginResponse loginResponse=new LoginResponse(user.getUid(),user.getName(),user.getRole());
 		return loginResponse;
-		
 	}
-
 
 }

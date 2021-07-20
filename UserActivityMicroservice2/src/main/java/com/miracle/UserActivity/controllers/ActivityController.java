@@ -36,6 +36,10 @@ public class ActivityController {
 	public LoginResponse authenticate(@RequestBody LoginRequest loginRequest) {
 		return employeeActivityServices.authenticate(loginRequest);
 	}
+	@GetMapping("/findAllUser")
+	public List<UserInfo> findAllUser(){
+		return employeeActivityServices.findAllUser();
+	}
 	@GetMapping("/findStatusByName/{name}")
 	public List<UserActivity> findByName(@PathVariable("name") String name){
 		return employeeActivityServices.findByName(name);
