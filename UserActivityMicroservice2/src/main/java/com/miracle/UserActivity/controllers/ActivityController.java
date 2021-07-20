@@ -7,6 +7,7 @@ import com.miracle.UserActivity.services.EmployeeActivityServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.miracle.UserActivity.entities.UserInfo;
 import com.miracle.UserActivity.models.LoginRequest;
 import com.miracle.UserActivity.models.LoginResponse;
 
-
+@CrossOrigin
 @RestController
 public class ActivityController {
 
@@ -81,5 +82,24 @@ public class ActivityController {
 	public UserInfo addUser(@RequestBody UserInfo userInfo) {
 		return employeeActivityServices.createUser(userInfo);
 	}
+	
+	@PostMapping("/ResetPassword")
+	public String resetPassword(@RequestBody UserInfo userInfo) {
+			 employeeActivityServices.createUser(userInfo);
+		return "password successfully reset";
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
