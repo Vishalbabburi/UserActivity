@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miracle.UserActivity.entities.UserActivity;
 import com.miracle.UserActivity.entities.UserInfo;
+import com.miracle.UserActivity.models.BenchEmployeeDetails;
 import com.miracle.UserActivity.models.LoginRequest;
 import com.miracle.UserActivity.models.LoginResponse;
+import com.miracle.UserActivity.models.PasswordResetRequest;
 
 @CrossOrigin
 @RestController
@@ -84,22 +86,17 @@ public class ActivityController {
 	}
 	
 	@PostMapping("/ResetPassword")
-	public String resetPassword(@RequestBody UserInfo userInfo) {
-			 employeeActivityServices.createUser(userInfo);
-		return "password successfully reset";
+	public boolean resetPassword(@RequestBody PasswordResetRequest passwordresetrequest) {		 
+		return employeeActivityServices.resetpassword(passwordresetrequest);
 	}
-
+	@GetMapping("/GetAllBenchEmployeeDetails")
+	public List<BenchEmployeeDetails> getAllBenchEmployeeDetails(){
+		return employeeActivityServices.getAllBenchEmployeeDetails();
+	}
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }

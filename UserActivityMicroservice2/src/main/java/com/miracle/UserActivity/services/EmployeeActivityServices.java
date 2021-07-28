@@ -1,20 +1,22 @@
 package com.miracle.UserActivity.services;
 
-import com.miracle.UserActivity.dao.EmployeeActivityDao;
-import com.miracle.UserActivity.dao.EmployeeInfoDao;
-import com.miracle.UserActivity.entities.UserActivity;
-import com.miracle.UserActivity.entities.UserInfo;
-import com.miracle.UserActivity.exceptions.EmployeeNotFoundException;
-import com.miracle.UserActivity.exceptions.UnauthorizedAccessException;
-import com.miracle.UserActivity.models.LoginRequest;
-import com.miracle.UserActivity.models.LoginResponse;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.miracle.UserActivity.dao.EmployeeActivityDao;
+import com.miracle.UserActivity.dao.EmployeeInfoDao;
+import com.miracle.UserActivity.entities.UserActivity;
+import com.miracle.UserActivity.entities.UserInfo;
+import com.miracle.UserActivity.exceptions.EmployeeNotFoundException;
+import com.miracle.UserActivity.exceptions.UnauthorizedAccessException;
+import com.miracle.UserActivity.models.BenchEmployeeDetails;
+import com.miracle.UserActivity.models.LoginRequest;
+import com.miracle.UserActivity.models.LoginResponse;
+import com.miracle.UserActivity.models.PasswordResetRequest;
 
 @Service
 public class EmployeeActivityServices {
@@ -93,6 +95,27 @@ public class EmployeeActivityServices {
 		LoginResponse loginResponse=new LoginResponse(user.getUid(),user.getName(),user.getRole());
 		return loginResponse;
 		
+	}
+
+	public boolean resetpassword(PasswordResetRequest passwordresetrequest) {
+		String name=passwordresetrequest.getName();
+		String secretkey=passwordresetrequest.getSecretkey();
+		String newPassword=passwordresetrequest.getPassword();
+		//UserInfo userinfo=employeeInfoDao.findByName(name);
+		UserInfo userinfo=employeeInfoDao.findByNameAndSecretKey(name,secretkey);
+		if(userinfo==null) return false;
+		userinfo.setPassword(newPassword);
+		employeeInfoDao.save(userinfo);
+		return true;
+		
+		
+		
+	}
+
+	public List<BenchEmployeeDetails> getAllBenchEmployeeDetails() {
+		// TODO Auto-generated method stub
+		
+		return employeeInfoDao.findBenchEmployeeDetails("Bench_Employee");
 	}
 
 

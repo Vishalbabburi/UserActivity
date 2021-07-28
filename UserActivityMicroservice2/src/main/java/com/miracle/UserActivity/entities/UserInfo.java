@@ -25,6 +25,7 @@ public class UserInfo {
 	private String name;
 	private String password;
 	private String role;
+	private String secretKey;
 	
 //	@OneToMany(targetEntity=UserActivity.class,fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 //	@JoinColumn(name="user_id",referencedColumnName="uid")
@@ -39,5 +40,11 @@ public class UserInfo {
 			useractivities.add(useractivity);
 			useractivity.setUser_info_id(this);			
 			}
+
+	public UserInfo(int uid, String name) {
+		super();
+		this.uid = uid;
+		this.name = name;
+	}
 
 }
