@@ -1,12 +1,17 @@
 package com.miracle.UserActivity.controllers;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
-
-import com.miracle.UserActivity.services.EmployeeActivityServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +27,9 @@ import com.miracle.UserActivity.models.BenchEmployeeDetails;
 import com.miracle.UserActivity.models.LoginRequest;
 import com.miracle.UserActivity.models.LoginResponse;
 import com.miracle.UserActivity.models.PasswordResetRequest;
+import com.miracle.UserActivity.security.JWTTokenHelper;
+import com.miracle.UserActivity.security.MyUserDetails;
+import com.miracle.UserActivity.services.EmployeeActivityServices;
 
 @CrossOrigin
 @RestController
@@ -29,6 +37,15 @@ public class ActivityController {
 
 	@Autowired
 	EmployeeActivityServices employeeActivityServices;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	JWTTokenHelper jWTTokenHelper;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 //	@GetMapping("/")
 //	public String home() {
@@ -64,14 +81,22 @@ public class ActivityController {
 	public ResponseEntity<UserActivity> addstatus(@RequestBody UserActivity todayActivity, @PathVariable("id") int id) {
 		return	new ResponseEntity<>(employeeActivityServices.createStatus(todayActivity,id), HttpStatus.OK);
 	}
-	@PutMapping("/editStatus")
-	public UserActivity editStatus(@RequestBody UserActivity editedActivity) {
-		return employeeActivityServices.editStatus(editedActivity);
+	@PutMapping("/editStatus/{uid}")
+	public UserActivity editStatus(@RequestBody UserActivity editedActivity, @PathVariable("uid") int uid) {
+		return employeeActivityServices.editStatus(editedActivity,uid);
 	}
+//	@PutMapping("/editStatus")
+//	public UserActivity editStatus(@RequestBody UserActivity editedActivity){
+//		return employeeActivityServices.editStatus(editedActivity);
+//	}
 	
 	@DeleteMapping("/DeleteByName/{name}")
 	public String deletebyname(@PathVariable("name") String name) {
 		return employeeActivityServices.deleteByName(name);
+	}
+	@DeleteMapping("/DeleteById/{id}")
+	public String deletebyname(@PathVariable("id") int id) {
+		return employeeActivityServices.deleteById(id);
 	}
 	
 	@DeleteMapping("/DeleteBydate/{date}")
@@ -98,6 +123,26 @@ public class ActivityController {
 		return employeeActivityServices.getAllBenchEmployeeDetails();
 	}
 	
+	@PostMapping("/auth/login")
+	public ResponseEntity<?> login(@RequestBody LoginRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
+
+		final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				authenticationRequest.getName(), authenticationRequest.getPassword()));
+		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		System.out.println(authentication.getPrincipal());
+		MyUserDetails user=(MyUserDetails)authentication.getPrincipal();
+		String jwtToken=jWTTokenHelper.generateToken(user.getUsername());
+		List<?> roles=(List<?>)user.getAuthorities();
+		LoginResponse response=new LoginResponse();
+		response.setId(user.getId());
+		response.setName(user.getUsername());
+		response.setRole(roles.get(0).toString());
+		response.setToken(jwtToken);
+		
+
+		return ResponseEntity.ok(response);
+	}
 	
 	
 	

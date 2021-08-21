@@ -29,7 +29,7 @@ public class UserInfo {
 	
 //	@OneToMany(targetEntity=UserActivity.class,fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 //	@JoinColumn(name="user_id",referencedColumnName="uid")
-	@OneToMany(mappedBy="user_info_id",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="user_info_id",fetch=FetchType.EAGER)
 	private List<UserActivity> useractivities;
 	
 	// method for adding user activities to a user for bi-directional mapping
@@ -40,7 +40,11 @@ public class UserInfo {
 			useractivities.add(useractivity);
 			useractivity.setUser_info_id(this);			
 			}
-
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+	
 	public UserInfo(int uid, String name) {
 		super();
 		this.uid = uid;

@@ -18,12 +18,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(UserActivityId.class)
 public class UserActivity {
 	
 	private String name;
 	
-	//Here both id and date will act as unique identifier i.e Composite key
 	@Id
 	@GeneratedValue
 	private int id;

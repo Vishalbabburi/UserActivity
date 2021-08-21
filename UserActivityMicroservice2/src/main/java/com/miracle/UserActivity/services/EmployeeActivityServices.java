@@ -55,16 +55,19 @@ public class EmployeeActivityServices {
         }
     }
 
-    public UserActivity editStatus(UserActivity editedActivity){
-        return EmployeeActivityDao.save(editedActivity);
+    public UserActivity editStatus(UserActivity editedActivity, int uid){
+    	UserActivity existingActivity=EmployeeActivityDao.findById(editedActivity.getId()).get();
+    	EmployeeActivityDao.deleteById(existingActivity.getId());
+    	       return createStatus(editedActivity,uid);
+    	
     }
-
+    
     public String deleteByName(String name){
         EmployeeActivityDao.deleteByDate(name);
         return "All "+name+" entries deleted successfully";
     }
 
-    public String deleteByDate(String date) {
+    public String deleteByDate(String date) {	
         EmployeeActivityDao.deleteByDate(date);
         return "All "+date+" entries deleted successfully";
     }
@@ -93,7 +96,8 @@ public class EmployeeActivityServices {
 		
 		UserInfo user=employeeInfoDao.findByNameAndPassword(name,password);
 		if(user==null) throw new UnauthorizedAccessException("UNAUTHORIZED ACCESS");
-		LoginResponse loginResponse=new LoginResponse(user.getUid(),user.getName(),user.getRole());
+		//LoginResponse loginResponse=new LoginResponse(user.getUid(),user.getName(),user.getRole());
+		LoginResponse loginResponse=new LoginResponse(user.getUid(),user.getName(),user.getRole(),"");
 		return loginResponse;
 	}
 
@@ -112,6 +116,13 @@ public class EmployeeActivityServices {
 	public List<BenchEmployeeDetails> getAllBenchEmployeeDetails() {	
 		return employeeInfoDao.findBenchEmployeeDetails("Bench_Employee");
 	}
+
+	public String deleteById(int id) {
+		EmployeeActivityDao.deleteById(id);
+		return "Employee Activity deleted Successfully";
+	}
+
+	
 
 
 
